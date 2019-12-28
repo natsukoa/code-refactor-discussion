@@ -10,10 +10,10 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-bp = Blueprint("blog", __name__)
+blog = Blueprint("blog", __name__)
 
 
-@bp.route("/")
+@blog.route("/")
 def index():
     """Show all the posts, most recent first."""
     db = get_db()
@@ -57,7 +57,7 @@ def get_post(id, check_author=True):
     return post
 
 
-@bp.route("/create", methods=("GET", "POST"))
+@blog.route("/create", methods=("GET", "POST"))
 @login_required
 def create():
     """Create a new post for the current user."""
@@ -83,7 +83,7 @@ def create():
     return render_template("blog/create.html")
 
 
-@bp.route("/<int:id>/update", methods=("GET", "POST"))
+@blog.route("/<int:id>/update", methods=("GET", "POST"))
 @login_required
 def update(id):
     """Update a post if the current user is the author."""
@@ -110,7 +110,7 @@ def update(id):
     return render_template("blog/update.html", post=post)
 
 
-@bp.route("/<int:id>/delete", methods=("POST",))
+@blog.route("/<int:id>/delete", methods=("POST",))
 @login_required
 def delete(id):
     """Delete a post.
