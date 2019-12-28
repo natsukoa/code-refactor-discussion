@@ -1,6 +1,10 @@
 import os
 
 from flask import Flask
+# register the database commands
+from flaskr import db
+# apply the blueprints to the app
+from flaskr import auth, blog
 
 
 def create_app(test_config=None):
@@ -26,13 +30,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # register the database commands
-    from flaskr import db
-
     db.init_app(app)
-
-    # apply the blueprints to the app
-    from flaskr import auth, blog
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
