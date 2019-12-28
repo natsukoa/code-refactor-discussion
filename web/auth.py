@@ -51,17 +51,14 @@ def register():
     password for security.
     """
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        db = get_db()
-        error = None
+        (username, password, db, error) = auth_args(request)
 
         if not username:
             error = "Username is required."
         elif not password:
             error = "Password is required."
         elif (
-            db.execute("SELECT id FROM user WHERE username = ?", (username,)).fetchone()
+            db.execute("SELECT id FROM user WHERE username,)).fetchone()
             is not None
         ):
             error = "User {0} is already registered.".format(username)
@@ -85,10 +82,7 @@ def register():
 def login():
     """Log in a registered user by adding the user id to the session."""
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        db = get_db()
-        error = None
+        (username, password, db, error) = auth_args(request)
         user = db.execute(
             "SELECT * FROM user WHERE username = ?", (username,)
         ).fetchone()
@@ -114,3 +108,11 @@ def logout():
     """Clear the current session, including the stored user id."""
     session.clear()
     return redirect(url_for("index"))
+
+def auth_args(request):
+    """Prepare auth args from request."""
+    username = request.form["username"]
+    password = request.form["password"]
+    db = get_db()
+    error = None
+    return (username, password, db, error)
