@@ -6,6 +6,12 @@ from flask import g
 from flask.cli import with_appcontext
 
 
+# TODO: ここにSQLAlchemyのDB接続の処理を書く
+# engine = db.create_engine('sqlite:///census.sqlite')
+# connection = engine.connect()
+# metadata = db.MetaData()
+# census = db.Table('census', metadata, autoload=True, autoload_with=engine)
+
 def get_db():
     """Connect to the application's configured database. The connection
     is unique for each request and will be reused if this is called
